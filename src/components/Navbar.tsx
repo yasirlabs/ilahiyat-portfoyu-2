@@ -2,18 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
-const navLinks = [
+const NAV_LINKS = [
   { name: 'Ana Sayfa', path: '/' },
   { name: 'Hakkımda', path: '/hakkimda' },
   { name: 'Hizmetler', path: '/hizmetler' },
-  { name: 'Blog', path: '/blog' },
+  { name: 'Makaleler', path: '/blog' },
   { name: 'Duyurular', path: '/duyurular' },
 ];
 
@@ -23,109 +17,114 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => setIsOpen(false), [location]);
+
   const isHome = location.pathname === '/';
+  const lightNav = !scrolled && isHome;
 
   return (
-    <nav className={cn(
-      "glass-nav",
-      scrolled ? "glass-nav-scrolled" : "glass-nav-transparent"
-    )}>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-slate-100'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="container-custom">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className={cn(
-                "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300",
-                scrolled ? "bg-primary text-white" : "bg-white/20 backdrop-blur-sm text-white"
-              )}>
-                <img className="p-2" src="src/public/images/logo.png" alt="Logo" />
-              </div>
-              <span className={cn(
-                "text-xl font-serif font-bold transition-colors duration-300",
-                scrolled || !isHome ? "text-slate-900" : "text-white"
-              )}>
-                Yasir Alrawi
-              </span>
-            </Link>
-          </div>
+        <div className="flex justify-between items-center h-20">
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 overflow-hidden ${
+              scrolled ? 'bg-[#0C1117]' : 'bg-white/15 backdrop-blur-sm'
+            }`}>
+              <img src="src/public/images/logo.png" alt="Logo" className="w-full h-full object-contain p-1.5" />
+            </div>
+            <span className={`font-serif font-bold text-lg transition-colors duration-300 ${
+              lightNav ? 'text-white' : 'text-[#0C1117]'
+            }`}>
+              Yasir Alrawi
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            {NAV_LINKS.map(link => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={cn(
-                  "text-sm font-semibold transition-all duration-300 hover:opacity-70",
-                  scrolled || !isHome 
-                    ? (location.pathname === link.path ? "text-primary" : "text-slate-600")
-                    : (location.pathname === link.path ? "text-white underline underline-offset-8" : "text-white/80")
-                )}
+                className={`text-sm font-semibold transition-all duration-300 relative group ${
+                  lightNav
+                    ? location.pathname === link.path ? 'text-white' : 'text-white/60 hover:text-white'
+                    : location.pathname === link.path ? 'text-[#C4A96E]' : 'text-slate-500 hover:text-[#0C1117]'
+                }`}
               >
                 {link.name}
+                {location.pathname === link.path && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className={`absolute -bottom-1 left-0 right-0 h-0.5 rounded-full ${lightNav ? 'bg-[#C4A96E]' : 'bg-[#C4A96E]'}`}
+                  />
+                )}
               </Link>
             ))}
-            <Link 
-              to="/iletisim" 
-              className={cn(
-                "btn-premium-primary px-6 py-2.5",
-                !scrolled && isHome && "bg-white text-primary hover:bg-white/90"
-              )}
+            <Link
+              to="/iletisim"
+              className={`text-xs font-bold tracking-widest uppercase px-6 py-3 rounded-full transition-all duration-300 ${
+                lightNav
+                  ? 'bg-white text-[#0C1117] hover:bg-[#C4A96E] hover:text-white'
+                  : 'bg-[#0C1117] text-white hover:bg-[#C4A96E]'
+              }`}
             >
-              İletişime Geç
+              İletişim
             </Link>
-          </div>
+          </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={cn(
-                "p-2 rounded-lg transition-colors",
-                scrolled || !isHome ? "text-slate-600 hover:bg-slate-100" : "text-white hover:bg-white/10"
-              )}
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setIsOpen(v => !v)}
+            className={`md:hidden p-2 rounded-lg transition-colors ${
+              lightNav ? 'text-white hover:bg-white/10' : 'text-[#0C1117] hover:bg-slate-100'
+            }`}
+          >
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="md:hidden absolute top-full left-0 right-0 bg-white shadow-xl border-t border-slate-100 overflow-hidden"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-white border-t border-slate-100 shadow-xl"
           >
-            <div className="px-6 py-8 space-y-4">
-              {navLinks.map((link) => (
+            <div className="container-custom py-8 space-y-2">
+              {NAV_LINKS.map(link => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "block text-lg font-medium transition-colors",
-                    location.pathname === link.path ? "text-primary" : "text-slate-600"
-                  )}
+                  className={`flex items-center py-3 px-4 rounded-xl text-sm font-semibold transition-colors ${
+                    location.pathname === link.path
+                      ? 'text-[#C4A96E] bg-[#C4A96E]/5'
+                      : 'text-slate-600 hover:bg-slate-50'
+                  }`}
                 >
                   {link.name}
                 </Link>
               ))}
-              <div className="pt-4">
+              <div className="pt-4 pb-2">
                 <Link
                   to="/iletisim"
-                  onClick={() => setIsOpen(false)}
-                  className="btn-premium-primary w-full"
+                  className="block w-full text-center bg-[#0C1117] text-white font-bold text-xs tracking-widest uppercase py-4 rounded-xl hover:bg-[#C4A96E] transition-colors"
                 >
                   İletişime Geç
                 </Link>
@@ -134,6 +133,6 @@ export const Navbar: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };

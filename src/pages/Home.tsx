@@ -1,134 +1,188 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowRight, Calendar, MapPin, ChevronRight, Mic2, Users, HeartHandshake, BookOpen, Presentation, Quote } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { ArrowRight, ChevronDown, Mic2, Users, HeartHandshake, BookOpen, Presentation, Quote, Star, ArrowUpRight } from 'lucide-react';
 import { SITE_DATA } from '../data';
 import { SEO } from '../components/SEO';
 
-const iconMap: Record<string, any> = {
-  Mic2,
-  Users,
-  HeartHandshake,
-  BookOpen,
-  Presentation
-};
+const iconMap: Record<string, any> = { Mic2, Users, HeartHandshake, BookOpen, Presentation };
+
+const STATS = [
+  { value: '12+', label: 'Yıllık Tecrübe' },
+  { value: '45+', label: 'Akademik Makale' },
+  { value: '120+', label: 'Seminer & Konferans' },
+  { value: '500+', label: 'Mezun Öğrenci' },
+];
+
+const TESTIMONIALS = [
+  { name: 'Prof. Dr. Ahmet Yıldırım', role: 'İlahiyat Fakültesi Dekanı', text: 'Yasir Hoca\'nın tefsir alanındaki derinliği ve pedagojik yaklaşımı, öğrencilere ilmi bir istikamet kazandırıyor.' },
+  { name: 'Ayşe Kaya', role: 'Öğrenci', text: 'Derslerinde yalnızca bilgi değil, düşünce sistemi inşa ediliyor. Bu fark, akademik hayatımı kökten değiştirdi.' },
+  { name: 'Dr. Mehmet Özkan', role: 'Araştırmacı', text: 'Sahih bilgiye verilen önem ve bilimsel titizlik, her sunumunda kendini açıkça hissettiriyor.' },
+];
 
 export const Home: React.FC = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   return (
-    <div className="overflow-hidden">
-      <SEO 
-        title="Ana Sayfa" 
-        description="Yasir Alrawi - İlahiyatçı, Araştırmacı ve Vaiz. Dini hizmetler, akademik makaleler ve güncel duyurular."
+    <div className="overflow-hidden bg-[#FAFAF8]">
+      <SEO
+        title="Ana Sayfa"
+        description="Yasir Alrawi — İlahiyatçı, Araştırmacı ve Vaiz."
         keywords="ilahiyat, vaaz, tefsir, hadis, dini danışmanlık, Yasir Alrawi"
       />
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden bg-slate-900">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&q=80&w=2000" 
-            alt="Library Background"
-            className="w-full h-full object-cover opacity-30"
-            referrerPolicy="no-referrer"
+      {/* ─── HERO ─── */}
+      <section ref={heroRef} className="relative min-h-screen flex items-end pb-24 overflow-hidden bg-[#0C1117]">
+        <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=2400"
+            alt=""
+            className="w-full h-full object-cover opacity-25"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900"></div>
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0C1117] via-[#0C1117]/60 to-transparent" />
+        </motion.div>
 
-        <div className="container-custom relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="lg:w-3/5 text-center lg:text-left">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
+        {/* Grain overlay */}
+        <div className="absolute inset-0 z-0 opacity-[0.04]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")', backgroundSize: '128px' }} />
+
+        <motion.div style={{ opacity: heroOpacity }} className="container-custom relative z-10 w-full">
+          <div className="flex flex-col lg:flex-row items-end gap-16">
+            {/* Left: Text */}
+            <div className="lg:w-3/5">
+              <motion.p
+                initial={{ opacity: 0, x: -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-8 flex items-center gap-3"
+              >
+                <span className="inline-block w-10 h-px bg-[#C4A96E]" />
+                {SITE_DATA.title}
+              </motion.p>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="font-serif text-white leading-[1.05] mb-10"
+                style={{ fontSize: 'clamp(3rem, 8vw, 7rem)' }}
               >
-                <span className="inline-block px-4 py-1.5 bg-primary/70 backdrop-blur-md text-white/80 text-xs font-bold tracking-[0.2em] uppercase rounded-full mb-6 border border-primary/30">
-                  {SITE_DATA.title}
-                </span>
-                <h1 className="text-5xl md:text-7xl lg:text-8xl mb-8 text-white leading-[1.1]">
-                  İlim ve İrfan <br />
-                  <span className="text-primary italic">Yolunda</span> Bir Ömür
-                </h1>
-                <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
-                  {SITE_DATA.about.short}
-                </p>
-                <div className="flex flex-wrap justify-center lg:justify-start gap-5">
-                  <Link to="/hakkimda" className="btn-premium-primary group text-lg">
-                    Hakkımda <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-                  </Link>
-                  <Link to="/iletisim" className="btn-premium-outline bg-transparent text-white border-white/20 hover:bg-white/10 text-lg">
-                    İletişime Geç
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
-            
-            <div className="lg:w-2/5 relative">
+                İlim ve İrfan
+                <br />
+                <em className="text-[#C4A96E]">Yolunda</em> Bir Ömür
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.45 }}
+                className="text-white/50 text-lg font-light leading-relaxed max-w-xl mb-14"
+              >
+                {SITE_DATA.about.short}
+              </motion.p>
+
               <motion.div
-                initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="relative z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-wrap gap-4"
               >
-                <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border-[12px] border-white/5 backdrop-blur-sm">
-                  <img 
-                    src="src/public/images/yasir-hocam.png" 
-                    alt={SITE_DATA.name}
-                    className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                {/* Floating Badge */}
-                <motion.div 
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hidden md:block"
+                <Link
+                  to="/hakkimda"
+                  className="group inline-flex items-center gap-3 bg-[#C4A96E] text-[#0C1117] font-bold text-sm tracking-widest uppercase px-8 py-4 rounded-full hover:bg-white transition-colors duration-300"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                      <BookOpen size={24} />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Akademik</p>
-                      <p className="text-slate-900 font-serif font-bold">Tefsir Araştırmacısı</p>
-                    </div>
-                  </div>
-                </motion.div>
+                  Hakkımda
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/iletisim"
+                  className="inline-flex items-center gap-3 border border-white/20 text-white/70 font-bold text-sm tracking-widest uppercase px-8 py-4 rounded-full hover:border-white/50 hover:text-white transition-all duration-300"
+                >
+                  İletişime Geç
+                </Link>
               </motion.div>
             </div>
+
+         
           </div>
-        </div>
+
+          {/* Scroll cue */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30"
+          >
+            <span className="text-[10px] tracking-[0.3em] uppercase">Keşfet</span>
+            <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+              <ChevronDown size={18} />
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* Quote Section */}
-      <section className="py-24 bg-beige relative">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <Quote className="mx-auto text-primary/20 mb-8" size={64} />
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif italic text-slate-800 leading-snug mb-8">
+      {/* ─── MARQUEE BELT ─── */}
+      <div className="bg-[#C4A96E] py-4 overflow-hidden">
+        <motion.div
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          className="flex gap-16 whitespace-nowrap"
+        >
+          {[...Array(8)].map((_, i) => (
+            <span key={i} className="text-[#0C1117] text-xs font-bold tracking-[0.3em] uppercase flex items-center gap-6">
+              Tefsir Araştırması
+              <span className="text-[#0C1117]/40">✦</span>
+              Akademik Dersler
+              <span className="text-[#0C1117]/40">✦</span>
+              İrşat Hizmetleri
+              <span className="text-[#0C1117]/40">✦</span>
+              Dini Danışmanlık
+              <span className="text-[#0C1117]/40">✦</span>
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ─── QUOTE ─── */}
+      <section className="py-32 bg-[#FAFAF8]">
+        <div className="container-custom max-w-5xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Quote className="mx-auto text-[#C4A96E]/30 mb-10" size={72} strokeWidth={1} />
+            <p className="font-serif text-[#0C1117] leading-snug mb-10" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
               "İlim, amel ile taçlanmadıkça sahibine yük olur. Hakiki bilgi, kalbe inen ve hayatı güzelleştiren bilgidir."
-            </h2>
-            <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-          </div>
+            </p>
+            <div className="flex items-center justify-center gap-4">
+              <div className="w-12 h-px bg-[#C4A96E]" />
+              <span className="text-[#C4A96E] text-xs tracking-[0.3em] uppercase font-bold">Yasir Alrawi</span>
+              <div className="w-12 h-px bg-[#C4A96E]" />
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="section-padding bg-white">
+      {/* ─── SERVICES ─── */}
+      <section className="py-32 bg-white">
         <div className="container-custom">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20">
-            <div className="max-w-2xl">
-              <span className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4 block">NE YAPIYORUZ?</span>
-              <h2 className="text-4xl md:text-5xl mb-6">Hizmet Alanlarımız</h2>
-              <p className="text-slate-600 text-lg">Toplumun manevi ve ilmi ihtiyaçlarına yönelik profesyonel çözümler.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24">
+            <div>
+              <p className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-4">Hizmetler</p>
+              <h2 className="font-serif text-[#0C1117]" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
+                Ne Sunuyoruz?
+              </h2>
             </div>
-            <Link to="/hizmetler" className="btn-premium-outline mt-8 md:mt-0 group">
-              Tüm Hizmetler <ChevronRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
+            <Link to="/hizmetler" className="group text-sm font-bold tracking-widest uppercase text-[#0C1117] flex items-center gap-2 mt-8 md:mt-0 hover:text-[#C4A96E] transition-colors">
+              Tüm Hizmetler <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
             {SITE_DATA.services.slice(0, 3).map((service, idx) => {
               const Icon = iconMap[service.icon];
               return (
@@ -137,19 +191,20 @@ export const Home: React.FC = () => {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.6 }}
-                  className="card-premium group p-10"
+                  transition={{ delay: idx * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  className="group relative bg-[#FAFAF8] hover:bg-[#0C1117] p-12 transition-all duration-500 cursor-pointer"
                 >
-                  <div className="w-16 h-16 bg-slate-50 text-primary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                    <Icon size={32} />
+                  <div className="w-14 h-14 rounded-2xl bg-[#C4A96E]/10 text-[#C4A96E] flex items-center justify-center mb-10 group-hover:bg-[#C4A96E]/20 transition-colors">
+                    <Icon size={28} />
                   </div>
-                  <h3 className="text-2xl mb-4 group-hover:text-primary transition-colors">{service.title}</h3>
-                  <p className="text-slate-600 leading-relaxed mb-8">
-                    {service.description}
-                  </p>
-                  <Link to="/hizmetler" className="inline-flex items-center text-primary font-bold group/link">
-                    Detaylı İncele <ArrowRight size={18} className="ml-2 group-hover/link:translate-x-2 transition-transform" />
+                  <span className="text-[#C4A96E] text-xs tracking-[0.3em] uppercase font-bold mb-4 block">0{idx + 1}</span>
+                  <h3 className="font-serif text-[#0C1117] text-2xl mb-4 group-hover:text-white transition-colors">{service.title}</h3>
+                  <p className="text-slate-500 group-hover:text-white/50 leading-relaxed text-sm transition-colors mb-10">{service.description}</p>
+                  <Link to="/hizmetler" className="inline-flex items-center gap-2 text-[#C4A96E] text-xs font-bold tracking-widest uppercase group/link">
+                    İncele <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
                   </Link>
+                  {/* bottom accent */}
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C4A96E] group-hover:w-full transition-all duration-500" />
                 </motion.div>
               );
             })}
@@ -157,48 +212,63 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Articles */}
-      <section className="section-padding bg-slate-50">
-        <div className="container-custom">
-          <div className="text-center mb-20">
-            <span className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4 block">BİLGİ PAYLAŞIMI</span>
-            <h2 className="text-4xl md:text-5xl mb-6">Akademik Makaleler</h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">Derinlemesine araştırmalar ve güncel dini meseleler üzerine kaleme alınmış yazılar.</p>
+      {/* ─── STATS ─── */}
+      <section className="py-28 bg-[#0C1117] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")', backgroundSize: '128px' }} />
+        <div className="container-custom relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
+            {STATS.map((stat, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="py-16 px-8 border-r border-white/5 last:border-0 text-center"
+              >
+                <p className="font-serif text-[#C4A96E] mb-3" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>{stat.value}</p>
+                <p className="text-white/30 text-xs tracking-[0.3em] uppercase font-bold">{stat.label}</p>
+              </motion.div>
+            ))}
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        </div>
+      </section>
+
+      {/* ─── ARTICLES ─── */}
+      <section className="py-32 bg-[#FAFAF8]">
+        <div className="container-custom">
+          <div className="text-center mb-24">
+            <p className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-4">Akademik Çalışmalar</p>
+            <h2 className="font-serif text-[#0C1117]" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>Son Makaleler</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {SITE_DATA.blog.map((post, idx) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                className="card-premium flex flex-col h-full"
+                transition={{ delay: idx * 0.12 }}
+                className="group bg-white rounded-2xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-500"
               >
                 <div className="aspect-[16/10] overflow-hidden relative">
-                  <img 
-                    src={`https://picsum.photos/seed/blog-p-${post.id}/800/500`} 
+                  <img
+                    src={`https://picsum.photos/seed/blog-p-${post.id}/800/500`}
                     alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-[10px] font-bold uppercase tracking-widest rounded-full">
-                      {post.category}
-                    </span>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0C1117]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <span className="absolute top-5 left-5 bg-white/90 backdrop-blur-sm text-[#C4A96E] text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                    {post.category}
+                  </span>
                 </div>
-                <div className="p-8 flex flex-col flex-grow">
-                  <div className="flex items-center gap-4 mb-4 text-xs text-slate-400 font-medium">
-                    <span className="flex items-center gap-1"><Calendar size={14} /> {post.date}</span>
-                  </div>
-                  <h3 className="text-xl mb-4 leading-tight group-hover:text-primary transition-colors">{post.title}</h3>
-                  <p className="text-slate-600 text-sm line-clamp-3 mb-8 flex-grow">
-                    {post.excerpt}
-                  </p>
-                  <Link to="/blog" className="text-primary font-bold text-sm flex items-center group/btn">
-                    Makaleyi Oku <ChevronRight size={16} className="ml-1 group-hover/btn:translate-x-1 transition-transform" />
+                <div className="p-8">
+                  <p className="text-slate-400 text-xs font-bold tracking-widest uppercase mb-4">{post.date}</p>
+                  <h3 className="font-serif text-[#0C1117] text-xl leading-snug mb-4 group-hover:text-[#C4A96E] transition-colors">{post.title}</h3>
+                  <p className="text-slate-500 text-sm line-clamp-2 mb-6 leading-relaxed">{post.excerpt}</p>
+                  <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-2 text-[#C4A96E] text-xs font-bold tracking-widest uppercase group/link">
+                    Oku <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </motion.article>
@@ -207,49 +277,73 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-24 bg-primary text-white">
+      {/* ─── TESTIMONIALS ─── */}
+      <section className="py-32 bg-white">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-            {[
-              { label: "Yıllık Tecrübe", value: "12+" },
-              { label: "Yayınlanmış Makale", value: "45+" },
-              { label: "Verilen Seminer", value: "120+" },
-              { label: "Mezun Öğrenci", value: "500+" }
-            ].map((stat, idx) => (
-              <div key={idx}>
-                <p className="text-4xl md:text-5xl font-serif font-bold mb-2">{stat.value}</p>
-                <p className="text-primary-foreground/60 text-sm font-bold uppercase tracking-widest">{stat.label}</p>
-              </div>
+          <div className="text-center mb-20">
+            <p className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-4">Görüşler</p>
+            <h2 className="font-serif text-[#0C1117]" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>Öğrenci & Meslektaş Yorumları</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((t, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="bg-[#FAFAF8] rounded-2xl p-10 border border-slate-100"
+              >
+                <div className="flex gap-1 mb-8">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-[#C4A96E] text-[#C4A96E]" />)}
+                </div>
+                <p className="text-slate-600 leading-relaxed mb-8 font-light italic">"{t.text}"</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-[#C4A96E]/10 text-[#C4A96E] flex items-center justify-center text-sm font-bold">
+                    {t.name[0]}
+                  </div>
+                  <div>
+                    <p className="text-[#0C1117] font-bold text-sm">{t.name}</p>
+                    <p className="text-slate-400 text-xs">{t.role}</p>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section-padding bg-white relative overflow-hidden">
-        <div className="container-custom relative z-10">
-          <div className="bg-navy rounded-[3rem] p-12 md:p-24 text-center text-white shadow-2xl relative overflow-hidden">
+      {/* ─── CTA ─── */}
+      <section className="py-32 bg-[#FAFAF8]">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative bg-[#0C1117] rounded-3xl overflow-hidden p-16 md:p-28 text-center"
+          >
+            {/* Background detail */}
+            <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#C4A96E]/5 rounded-full blur-3xl" />
+            <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#C4A96E]/5 rounded-full blur-3xl" />
+
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-6xl mb-8 font-serif italic">Geleceği İlimle İnşa Edelim</h2>
-              <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-                Dini eğitimler, akademik iş birlikleri veya bireysel danışmanlık talepleriniz için her zaman yanınızdayım.
+              <p className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-6">İletişim</p>
+              <h2 className="font-serif text-white mb-8" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
+                Geleceği İlimle<br /><em className="text-[#C4A96E]">İnşa Edelim</em>
+              </h2>
+              <p className="text-white/40 text-lg font-light max-w-xl mx-auto mb-14 leading-relaxed">
+                Dini eğitimler, akademik iş birlikleri veya bireysel danışmanlık için her zaman yanınızdayım.
               </p>
-              <div className="flex flex-wrap justify-center gap-6">
-                <Link to="/iletisim" className="btn-premium bg-white text-navy hover:bg-slate-100 px-12 py-5 text-lg">
-                  Hemen İletişime Geç
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link to="/iletisim" className="group inline-flex items-center gap-3 bg-[#C4A96E] text-[#0C1117] font-bold text-sm tracking-widest uppercase px-10 py-5 rounded-full hover:bg-white transition-colors duration-300">
+                  İletişime Geç <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/duyurular" className="btn-premium border border-white/20 text-white hover:bg-white/10 px-12 py-5 text-lg">
+                <Link to="/duyurular" className="inline-flex items-center gap-3 border border-white/15 text-white/60 font-bold text-sm tracking-widest uppercase px-10 py-5 rounded-full hover:border-white/40 hover:text-white transition-all duration-300">
                   Etkinlik Takvimi
                 </Link>
               </div>
             </div>
-            {/* Abstract Background Shapes */}
-            <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-              <div className="absolute -top-24 -left-24 w-96 h-96 border-[40px] border-white rounded-full"></div>
-              <div className="absolute -bottom-48 -right-48 w-[500px] h-[500px] border-[60px] border-white rounded-full"></div>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

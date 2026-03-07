@@ -1,181 +1,198 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { GraduationCap, Target, Eye, CheckCircle2, Award, BookOpen } from 'lucide-react';
+import { GraduationCap, Target, Eye, CheckCircle2, Award, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { SITE_DATA } from '../data';
 import { SEO } from '../components/SEO';
 
 export const About: React.FC = () => {
   return (
-    <div>
-      <SEO 
-        title="Hakkımda" 
-        description="Yasir Alrawi'nin biyografisi, eğitimi, uzmanlık alanları, misyon ve vizyonu."
+    <div className="bg-[#FAFAF8]">
+      <SEO
+        title="Hakkımda"
+        description="Yasir Alrawi'nin biyografisi, eğitimi ve uzmanlık alanları."
       />
 
-      {/* Header */}
-      <section className="relative pt-40 pb-24 bg-slate-900 overflow-hidden">
+      {/* ─── HEADER ─── */}
+      <section className="relative min-h-[60vh] flex items-end pb-24 overflow-hidden bg-[#0C1117]">
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=2000" 
-            alt="Library"
+          <img
+            src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=2400"
+            alt=""
             className="w-full h-full object-cover opacity-20"
-            referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0C1117] via-[#0C1117]/50 to-transparent" />
         </div>
-        <div className="container-custom relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-4 block">BİRİKİM & TECRÜBE</span>
-            <h1 className="text-5xl md:text-7xl text-white mb-6">Hakkımda</h1>
-            <div className="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
+        <div className="container-custom relative z-10">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
+            <p className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-4 flex items-center gap-3">
+              <span className="w-8 h-px bg-[#C4A96E]" /> Birikim & Tecrübe
+            </p>
+            <h1 className="font-serif text-white" style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}>Hakkımda</h1>
           </motion.div>
         </div>
       </section>
 
-      {/* Bio Section */}
-      <section className="section-padding bg-white">
+      {/* ─── BIO ─── */}
+      <section className="py-32 bg-white">
         <div className="container-custom">
-          <div className="flex flex-col lg:flex-row gap-20 items-center">
-            <div className="lg:w-2/5 relative">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="relative z-10"
-              >
-                <div className="aspect-[3/4] rounded-[2.5rem] overflow-hidden shadow-2xl border-[12px] border-slate-50">
-                  <img 
-                    src="https://picsum.photos/seed/scholar-bio-p/800/1000" 
-                    alt={SITE_DATA.name}
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-beige rounded-full -z-10"></div>
-              </motion.div>
-            </div>
-            <div className="lg:w-3/5">
-              <h2 className="text-4xl md:text-5xl mb-8">İlmi Bir Yolculuk</h2>
-              <div className="prose prose-slate prose-lg max-w-none text-slate-600 leading-relaxed space-y-6 font-light">
+          <div className="flex flex-col lg:flex-row gap-24 items-center">
+            {/* Photo */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:w-2/5 relative"
+            >
+              <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl relative">
+                <img
+                  src="https://picsum.photos/seed/scholar-bio-p/800/1000"
+                  alt={SITE_DATA.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0C1117]/30 to-transparent" />
+              </div>
+              {/* Name plate */}
+              <div className="absolute -bottom-8 left-8 right-8 bg-[#0C1117] text-white rounded-2xl px-8 py-6">
+                <p className="font-serif text-xl">{SITE_DATA.name}</p>
+                <p className="text-[#C4A96E] text-xs tracking-widest uppercase font-bold mt-1">Tefsir Araştırmacısı & Vaiz</p>
+              </div>
+            </motion.div>
+
+            {/* Text */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:w-3/5 pt-10 lg:pt-0"
+            >
+              <p className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-6">İlmi Bir Yolculuk</p>
+              <h2 className="font-serif text-[#0C1117] text-4xl mb-8 leading-snug">
+                Sahih Bilgiyi Toplumla<br /><em>Buluşturmak</em>
+              </h2>
+              <div className="space-y-5 text-slate-500 font-light leading-relaxed mb-16">
                 <p>{SITE_DATA.about.bio}</p>
                 <p>
-                  Akademik çalışmalarımda temel prensibim, "hikmet müminin yitik malıdır" düsturuyla hareket ederek, sahih dini bilgiyi modern dünyanın ihtiyaç duyduğu rasyonel ve ahlaki çerçevede sunmaktır. 
-                  Tefsir anabilim dalındaki uzmanlığımı, toplumsal rehberlik ve irşat faaliyetleriyle birleştirerek bütüncül bir hizmet anlayışı benimsiyorum.
+                  Akademik çalışmalarımda temel prensibim, "hikmet müminin yitik malıdır" düsturuyla hareket ederek,
+                  sahih dini bilgiyi modern dünyanın ihtiyaç duyduğu rasyonel ve ahlaki çerçevede sunmaktır.
                 </p>
               </div>
 
-              <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="text-2xl mb-8 flex items-center text-primary font-serif italic">
-                    <GraduationCap className="mr-4 text-primary" size={32} /> Eğitim Hayatı
+              {/* Education & Expertise */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
+                <div>
+                  <h3 className="flex items-center gap-3 text-[#0C1117] font-serif text-xl mb-8">
+                    <GraduationCap className="text-[#C4A96E]" size={24} /> Eğitim
                   </h3>
                   <div className="space-y-8">
                     {SITE_DATA.about.education.map((edu, idx) => (
-                      <div key={idx} className="relative pl-8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-primary/20">
-                        <div className="absolute left-[-4px] top-0 w-2 h-2 rounded-full bg-primary"></div>
-                        <h4 className="font-bold text-slate-900 text-lg">{edu.degree}</h4>
-                        <p className="text-slate-600">{edu.school}</p>
-                        <p className="text-sm text-primary font-bold mt-2">{edu.year}</p>
+                      <div key={idx} className="relative pl-6 border-l border-[#C4A96E]/20">
+                        <div className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-[#C4A96E]" />
+                        <p className="font-bold text-[#0C1117]">{edu.degree}</p>
+                        <p className="text-slate-500 text-sm">{edu.school}</p>
+                        <p className="text-[#C4A96E] text-xs font-bold mt-1">{edu.year}</p>
                       </div>
                     ))}
                   </div>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <h3 className="text-2xl mb-8 flex items-center text-primary font-serif italic">
-                    <Award className="mr-4 text-primary" size={32} /> Uzmanlıklar
+                </div>
+                <div>
+                  <h3 className="flex items-center gap-3 text-[#0C1117] font-serif text-xl mb-8">
+                    <Award className="text-[#C4A96E]" size={24} /> Uzmanlıklar
                   </h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-3">
                     {SITE_DATA.about.expertise.map((exp, idx) => (
-                      <div key={idx} className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                        <CheckCircle2 className="text-primary" size={18} />
-                        <span className="text-slate-700 font-medium">{exp}</span>
+                      <div key={idx} className="flex items-center gap-3 text-slate-600 text-sm">
+                        <CheckCircle2 className="text-[#C4A96E] shrink-0" size={16} />
+                        {exp}
                       </div>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="section-padding bg-beige relative overflow-hidden">
-        <div className="container-custom relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <motion.div 
+      {/* ─── MISSION & VISION ─── */}
+      <section className="py-32 bg-[#FAFAF8]">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white p-12 md:p-16 rounded-[3rem] shadow-xl border border-white/50"
+              className="bg-white border border-slate-100 rounded-3xl p-14"
             >
-              <div className="w-20 h-20 bg-primary/5 text-primary rounded-3xl flex items-center justify-center mb-10">
-                <Target size={40} />
+              <div className="w-16 h-16 bg-[#C4A96E]/10 rounded-2xl flex items-center justify-center text-[#C4A96E] mb-10">
+                <Target size={32} />
               </div>
-              <h2 className="text-3xl md:text-4xl mb-6 font-serif italic">Misyonumuz</h2>
-              <p className="text-xl text-slate-600 leading-relaxed font-light">
-                {SITE_DATA.about.mission}
-              </p>
+              <p className="text-[#C4A96E] text-xs tracking-[0.3em] uppercase font-bold mb-4">Misyon</p>
+              <h2 className="font-serif text-[#0C1117] text-3xl mb-6">Neden Buradayız?</h2>
+              <p className="text-slate-500 leading-relaxed font-light text-lg">{SITE_DATA.about.mission}</p>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="bg-primary p-12 md:p-16 rounded-[3rem] shadow-xl text-white"
+              transition={{ delay: 0.15 }}
+              className="bg-[#0C1117] rounded-3xl p-14 relative overflow-hidden"
             >
-              <div className="w-20 h-20 bg-white/10 text-white rounded-3xl flex items-center justify-center mb-10">
-                <Eye size={40} />
+              <div className="absolute -top-16 -right-16 w-64 h-64 bg-[#C4A96E]/5 rounded-full blur-3xl" />
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-[#C4A96E] mb-10">
+                  <Eye size={32} />
+                </div>
+                <p className="text-[#C4A96E] text-xs tracking-[0.3em] uppercase font-bold mb-4">Vizyon</p>
+                <h2 className="font-serif text-white text-3xl mb-6">Nereye Gidiyoruz?</h2>
+                <p className="text-white/40 leading-relaxed font-light text-lg">{SITE_DATA.about.vision}</p>
               </div>
-              <h2 className="text-3xl md:text-4xl mb-6 font-serif italic">Vizyonumuz</h2>
-              <p className="text-xl text-primary-foreground/80 leading-relaxed font-light">
-                {SITE_DATA.about.vision}
-              </p>
             </motion.div>
           </div>
         </div>
-        
-        {/* Decorative Background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none opacity-[0.03]">
-          <BookOpen size={800} className="mx-auto" />
-        </div>
       </section>
 
-      {/* Values Section */}
-      <section className="section-padding bg-white">
+      {/* ─── VALUES ─── */}
+      <section className="py-32 bg-white">
         <div className="container-custom">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl mb-6">Temel Değerlerimiz</h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">Hizmet anlayışımızın temelini oluşturan sarsılmaz prensiplerimiz.</p>
+            <p className="text-[#C4A96E] text-xs tracking-[0.35em] uppercase font-bold mb-4">İlkeler</p>
+            <h2 className="font-serif text-[#0C1117] text-4xl">Temel Değerlerimiz</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
             {[
-              { title: "Sahih Bilgi", desc: "Kur'an ve Sünnet eksenli, hurafe ve aşırılıktan uzak, delile dayalı bilgi üretimi." },
-              { title: "Akademik Titizlik", desc: "Bilimsel yöntemlere sadık, eleştirel düşünceyi önemseyen araştırmacı yaklaşım." },
-              { title: "Toplumsal Fayda", desc: "Bilginin sadece teoride kalmadığı, hayatın içine dokunan ve çözüm üreten bir anlayış." }
-            ].map((value, idx) => (
-              <div key={idx} className="text-center group">
-                <div className="w-1 bg-primary/20 h-12 mx-auto mb-8 group-hover:h-16 group-hover:bg-primary transition-all duration-500"></div>
-                <h3 className="text-2xl mb-4">{value.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{value.desc}</p>
-              </div>
+              { num: '01', title: 'Sahih Bilgi', desc: 'Kur\'an ve Sünnet eksenli, hurafe ve aşırılıktan uzak, delile dayalı bilgi üretimi.' },
+              { num: '02', title: 'Akademik Titizlik', desc: 'Bilimsel yöntemlere sadık, eleştirel düşünceyi önemseyen araştırmacı yaklaşım.' },
+              { num: '03', title: 'Toplumsal Fayda', desc: 'Bilginin sadece teoride kalmadığı, hayatın içine dokunan çözüm üreten bir anlayış.' },
+            ].map((v, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group bg-[#FAFAF8] hover:bg-[#0C1117] p-12 transition-colors duration-500"
+              >
+                <p className="text-[#C4A96E] text-xs tracking-[0.3em] uppercase font-bold mb-6">{v.num}</p>
+                <h3 className="font-serif text-[#0C1117] group-hover:text-white text-2xl mb-4 transition-colors">{v.title}</h3>
+                <p className="text-slate-500 group-hover:text-white/40 leading-relaxed text-sm transition-colors">{v.desc}</p>
+              </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section className="py-24 bg-[#FAFAF8]">
+        <div className="container-custom text-center">
+          <h2 className="font-serif text-[#0C1117] text-3xl mb-6">Sorularınız mı Var?</h2>
+          <p className="text-slate-400 mb-10 max-w-xl mx-auto">Her türlü görüş, soru ve iş birliği için iletişime geçebilirsiniz.</p>
+          <Link to="/iletisim" className="group inline-flex items-center gap-3 bg-[#0C1117] text-white font-bold text-sm tracking-widest uppercase px-10 py-5 rounded-full hover:bg-[#C4A96E] transition-colors duration-300">
+            İletişime Geç <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </section>
     </div>

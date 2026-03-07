@@ -1,77 +1,119 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Twitter, Facebook, Instagram, Youtube, BookOpen } from 'lucide-react';
+import { Mail, Phone, MapPin, Twitter, Facebook, Instagram, Youtube, ArrowUpRight } from 'lucide-react';
 import { SITE_DATA } from '../data';
+
+const LINKS = [
+  { label: 'Ana Sayfa', to: '/' },
+  { label: 'Hakkımda', to: '/hakkimda' },
+  { label: 'Hizmetler', to: '/hizmetler' },
+  { label: 'Makaleler', to: '/blog' },
+  { label: 'Duyurular', to: '/duyurular' },
+];
+
+const SERVICES = [
+  'Vaaz & İrşat',
+  'Dini Sohbetler',
+  'İslami Eğitimler',
+  'Dini Danışmanlık',
+  'Akademik Seminerler',
+];
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-8">
-      <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+    <footer className="bg-[#0C1117] text-white/40">
+      {/* Top stripe */}
+      <div className="h-px bg-gradient-to-r from-transparent via-[#C4A96E]/30 to-transparent" />
+
+      <div className="container-custom pt-20 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-16">
+
           {/* Brand */}
-          <div className="col-span-1 md:col-span-1">
-            <Link to="/" className="flex items-center space-x-2 mb-6">
-              <img className="w-10" src="src/public/images/logo.png" alt="Logo" />
-              <span className="text-xl font-serif font-bold text-white">Yasir Alrawi</span>
+          <div className="md:col-span-4">
+            <Link to="/" className="flex items-center gap-3 mb-8 group">
+              <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                <img src="src/public/images/logo.png" alt="Logo" className="w-full h-full object-contain p-1.5" />
+              </div>
+              <span className="font-serif text-white text-xl font-bold">Yasir Alrawi</span>
             </Link>
-            <p className="text-sm leading-relaxed mb-6">
-              İslami ilimler ve akademik araştırmalar ışığında sahih bilgiyi toplumla buluşturma gayesiyle.
+            <p className="text-sm leading-relaxed mb-8 font-light">
+              İslami ilimler ve akademik araştırmalar ışığında sahih bilgiyi toplumla buluşturma gayesiyle hizmet veriyoruz.
             </p>
-            <div className="flex space-x-4">
-              <a href={SITE_DATA.social.twitter} className="hover:text-white transition-colors"><Twitter size={20} /></a>
-              <a href={SITE_DATA.social.facebook} className="hover:text-white transition-colors"><Facebook size={20} /></a>
-              <a href={SITE_DATA.social.instagram} className="hover:text-white transition-colors"><Instagram size={20} /></a>
-              <a href={SITE_DATA.social.youtube} className="hover:text-white transition-colors"><Youtube size={20} /></a>
+            <div className="flex gap-3">
+              {[
+                { Icon: Twitter, href: SITE_DATA.social.twitter },
+                { Icon: Facebook, href: SITE_DATA.social.facebook },
+                { Icon: Instagram, href: SITE_DATA.social.instagram },
+                { Icon: Youtube, href: SITE_DATA.social.youtube },
+              ].map(({ Icon, href }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  className="w-10 h-10 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center hover:bg-[#C4A96E]/10 hover:border-[#C4A96E]/30 hover:text-[#C4A96E] transition-all duration-300"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-serif font-bold mb-6">Hızlı Menü</h3>
-            <ul className="space-y-4 text-sm">
-              <li><Link to="/" className="hover:text-white transition-colors">Ana Sayfa</Link></li>
-              <li><Link to="/hakkimda" className="hover:text-white transition-colors">Hakkımda</Link></li>
-              <li><Link to="/hizmetler" className="hover:text-white transition-colors">Hizmetler</Link></li>
-              <li><Link to="/blog" className="hover:text-white transition-colors">Makaleler</Link></li>
-              <li><Link to="/duyurular" className="hover:text-white transition-colors">Duyurular</Link></li>
+          {/* Nav */}
+          <div className="md:col-span-2">
+            <p className="text-white font-bold text-xs tracking-widest uppercase mb-6">Sayfalar</p>
+            <ul className="space-y-3">
+              {LINKS.map(link => (
+                <li key={link.to}>
+                  <Link to={link.to} className="text-sm hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Services */}
-          <div>
-            <h3 className="text-white font-serif font-bold mb-6">Hizmetler</h3>
-            <ul className="space-y-4 text-sm">
-              <li><Link to="/hizmetler" className="hover:text-white transition-colors">Vaaz & İrşat</Link></li>
-              <li><Link to="/hizmetler" className="hover:text-white transition-colors">Dini Sohbetler</Link></li>
-              <li><Link to="/hizmetler" className="hover:text-white transition-colors">İslami Eğitimler</Link></li>
-              <li><Link to="/hizmetler" className="hover:text-white transition-colors">Dini Danışmanlık</Link></li>
-              <li><Link to="/hizmetler" className="hover:text-white transition-colors">Akademik Seminerler</Link></li>
+          <div className="md:col-span-3">
+            <p className="text-white font-bold text-xs tracking-widest uppercase mb-6">Hizmetler</p>
+            <ul className="space-y-3">
+              {SERVICES.map(s => (
+                <li key={s}>
+                  <Link to="/hizmetler" className="text-sm hover:text-white transition-colors flex items-center gap-1 group">
+                    {s}
+                    <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-60 transition-opacity" />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
-          <div>
-            <h3 className="text-white font-serif font-bold mb-6">İletişim</h3>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-start space-x-3">
-                <Mail size={18} className="mt-0.5" />
-                <span>{SITE_DATA.email}</span>
+          <div className="md:col-span-3">
+            <p className="text-white font-bold text-xs tracking-widest uppercase mb-6">İletişim</p>
+            <ul className="space-y-5">
+              <li>
+                <a href={`mailto:${SITE_DATA.email}`} className="text-sm hover:text-white transition-colors flex items-start gap-3">
+                  <Mail size={16} className="text-[#C4A96E] mt-0.5 shrink-0" />
+                  {SITE_DATA.email}
+                </a>
               </li>
-              <li className="flex items-start space-x-3">
-                <Phone size={18} className="mt-0.5" />
-                <span>{SITE_DATA.phone}</span>
+              <li>
+                <a href={`tel:${SITE_DATA.phone}`} className="text-sm hover:text-white transition-colors flex items-start gap-3">
+                  <Phone size={16} className="text-[#C4A96E] mt-0.5 shrink-0" />
+                  {SITE_DATA.phone}
+                </a>
               </li>
-              <li className="flex items-start space-x-3">
-                <MapPin size={18} className="mt-0.5" />
-                <span>{SITE_DATA.address}</span>
+              <li className="flex items-start gap-3 text-sm">
+                <MapPin size={16} className="text-[#C4A96E] mt-0.5 shrink-0" />
+                {SITE_DATA.address}
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
           <p>© {new Date().getFullYear()} Yasir Alrawi. Tüm Hakları Saklıdır.</p>
-          <p className="mt-4 md:mt-0">Tasarım & Geliştirme: Profesyonel İlahiyatçı Portfolyosu</p>
+          <p>Profesyonel İlahiyatçı Portfolyosu</p>
         </div>
       </div>
     </footer>
