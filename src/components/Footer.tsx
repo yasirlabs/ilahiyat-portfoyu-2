@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-4">
             <Link to="/" className="flex items-center gap-3 mb-8 group">
               <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/5 border border-white/10">
-                <img src="src/public/images/logo.png" alt="Logo" className="w-full h-full object-contain p-1.5" />
+                <img src="https://res.cloudinary.com/dvx6nsrd9/image/upload/v1773341308/logo_ycwliy.png" alt="Logo" className="w-full h-full object-contain p-1.5" />
               </div>
               <span className="font-serif text-white text-xl font-bold">Yasir Alrawi</span>
             </Link>

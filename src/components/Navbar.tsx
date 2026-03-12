@@ -43,7 +43,7 @@ export const Navbar: React.FC = () => {
             <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 overflow-hidden ${
               scrolled ? 'bg-[#0C1117]' : 'bg-white/15 backdrop-blur-sm'
             }`}>
-              <img src="src/public/images/logo.png" alt="Logo" className="w-full h-full object-contain p-1.5" />
+              <img src="https://res.cloudinary.com/dvx6nsrd9/image/upload/v1773341308/logo_ycwliy.png" alt="Logo" className="w-full h-full object-contain p-1.5" />
             </div>
             <span className={`font-serif font-bold text-lg transition-colors duration-300 ${
               lightNav ? 'text-white' : 'text-[#0C1117]'
